@@ -1,23 +1,18 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import google.generativeai as genai
-from dotenv import load_dotenv
-import os
 from app.models import GeminiQuery
+from app.config import model
 
-load_dotenv()
-api_key = os.environ.get('GEMINI_API_KEY')
-genai.configure(api_key=api_key)
-model = genai.GenerativeModel("gemini-1.5-flash")
+
 app = FastAPI()
 origins = [
-    "http://localhost:61224",
+    "*"
 ]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["POST"],
     allow_headers=["*"],
 )
 
